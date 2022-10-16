@@ -101,24 +101,43 @@ import base64
 
 #add max tokens a slider
 
-def make_image_and_story(prompt="Random monster"):
-  host = 'https://dev.paint.cohere.ai/txt2img'
-  response = requests.post(host, json={'prompt': 'Random monster', 'n_samples' : 1, 'n_iter' : 1})
+def make_image_and_story(prompt):
+  if(prompt is None or prompt == ""):
+    host = 'https://dev.paint.cohere.ai/txt2img'
+    response = requests.post(host, json={'prompt': 'Random monster', 'n_samples' : 1, 'n_iter' : 1})
 
-  # decode image
-  imageBytes = base64.b64decode(response.json()['image']) #decode
+    # decode image
+    imageBytes = base64.b64decode(response.json()['image']) #decode
 
-  # save to disk
-  f = open("sample.png", "wb")
-  f.write(imageBytes)
-  f.close()
+    # save to disk
+    f = open("sample.png", "wb")
+    f.write(imageBytes)
+    f.close()
 
-  caption = get_caption("sample.png")
+    caption = get_caption("sample.png")
 
-  co = cohere.Client('yRfs5ozta7DQtTF0duztE9bV7CNulvcxwuqJizhB')
-  response = co.generate(prompt=caption, model ='c0381280-2035-4042-a5a0-01f5800bd9c0-ft', max_tokens=80)
+    co = cohere.Client('yRfs5ozta7DQtTF0duztE9bV7CNulvcxwuqJizhB')
+    response = co.generate(prompt=caption, model ='c0381280-2035-4042-a5a0-01f5800bd9c0-ft', max_tokens=80)
 
-  return Image.open("sample.png"), response.generations[0].text
+    return Image.open("sample.png"), response.generations[0].text
+  else:
+    host = 'https://dev.paint.cohere.ai/txt2img'
+    response = requests.post(host, json={'prompt': prompt, 'n_samples' : 1, 'n_iter' : 1})
+
+    # decode image
+    imageBytes = base64.b64decode(response.json()['image']) #decode
+
+    # save to disk
+    f = open("sample.png", "wb")
+    f.write(imageBytes)
+    f.close()
+
+    caption = get_caption("sample.png")
+
+    co = cohere.Client('yRfs5ozta7DQtTF0duztE9bV7CNulvcxwuqJizhB')
+    response = co.generate(prompt=caption, model ='c0381280-2035-4042-a5a0-01f5800bd9c0-ft', max_tokens=80)
+
+    return Image.open("sample.png"), response.generations[0].text
 
 
-gr.Interface(fn=make_image_and_story, inputs=None, outputs=["image","text"],title='Fantasy Creature Generator').launch();
+gr.Interface(fn=make_image_and_story, inputs="text", outputs=["image","text"],title='Fantasy Creature Generator').launch();
