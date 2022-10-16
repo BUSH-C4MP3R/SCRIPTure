@@ -19,4 +19,4 @@ Copy and past local host into browser and press the generate button.
 
 # Example
 
-![Example image:][example.png]
+![Example image:](example.png)
