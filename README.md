@@ -16,3 +16,7 @@ Run the following terminal command to run the code in a local host:
 python main.py
 ```
 Copy and past local host into browser and press the generate button. 
+
+# Example
+
+![Example image:]https://imgur.com/a/P9dSe03
