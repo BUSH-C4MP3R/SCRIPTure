@@ -19,4 +19,4 @@ Copy and past local host into browser and press the generate button.
 
 # Example
 
-![Example image:]https://imgur.com/a/P9dSe03
+![Example image:][example.png]
