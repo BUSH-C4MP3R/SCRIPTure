@@ -8,6 +8,72 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import cohere
 import gradio as gr
+import string
+
+def cap(t):
+    indices = []
+    tem = ""
+    for j in range(len(t)):
+        if t[j] == "." or t[j] == "!" or t[j] == "?":
+            if j+2 < len(t):
+                indices.append(j+2)
+    for j in range(len(t)):
+        if j in indices:
+            tem += t[j].upper()
+        else:
+            tem += t[j]
+    return tem
+def processing(s):
+    #create a string[] that holds every sentence
+    arr = []
+    temp = ""
+    fin = ""
+    for i in range(len(s)):
+        temp += s[i]
+        if s[i] == "\n":
+            arr.append(temp)
+            temp = ""
+        if i == len(s)-1:
+            arr.append(temp)
+    for i in arr:
+        t = i
+        t = t.strip()
+        temp = ""
+        #make the first element of the string be the first alpha character
+        ind = 0
+        for j in range(len(t)):
+            if t[j].isalpha():
+                ind = j
+                break
+        t = t[ind:]
+        t = t.capitalize()
+        # capitalize all words after punctuation 
+        t = cap(t)
+        #remove some punctuation
+        t = t.replace("(", "")
+        t = t.replace(")", "")
+        t = t.replace("&", "")
+        t = t.replace("#", "")
+        t = t.replace("_", "")
+        
+        #remove punctuation if it is not following an alpha character
+        temp = ""
+        for j in range(len(t)):
+            if t[j] in string.punctuation:
+                if t[j-1] not in string.punctuation:
+                    temp += t[j]
+            else:
+                temp += t[j]
+        fin += temp + "\n"
+        #find the last punctuation in fin and return everything before that
+    ind = 0
+    for i in range(len(fin)):
+        if fin[i] == "." or fin[i] == "?" or fin[i] == "!":
+            ind = i
+    if(ind != 0 and ind != len(fin) - 1):
+        return fin[:ind+1]
+    else:
+        return fin
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -137,7 +203,7 @@ def make_image_and_story(prompt):
     co = cohere.Client('yRfs5ozta7DQtTF0duztE9bV7CNulvcxwuqJizhB')
     response = co.generate(prompt=caption, model ='c0381280-2035-4042-a5a0-01f5800bd9c0-ft', max_tokens=80)
 
-    return Image.open("sample.png"), response.generations[0].text
+    return Image.open("sample.png"), processing(response.generations[0].text)
 
 
 gr.Interface(fn=make_image_and_story, inputs="text", outputs=["image","text"],title='Fantasy Creature Generator').launch();
