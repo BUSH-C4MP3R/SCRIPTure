@@ -182,13 +182,13 @@ def make_image_and_story(prompt):
 
     caption = get_caption("sample.png")
 
-    co = cohere.Client('yRfs5ozta7DQtTF0duztE9bV7CNulvcxwuqJizhB')
-    response = co.generate(prompt=caption, model ='c0381280-2035-4042-a5a0-01f5800bd9c0-ft', max_tokens=80)
+    co = cohere.Client('SD5vY3pwFrA0bBNTnIpp4N02sWhK4vd7mkkcrpXS')
+    response = co.generate(prompt=caption, model ='aeb523c3-a79c-48ba-9274-a12ac07492a2-ft', max_tokens=80)
 
-    return Image.open("sample.png"), response.generations[0].text
+    return Image.open("sample.png"), processing(response.generations[0].text)
   else:
     host = 'https://dev.paint.cohere.ai/txt2img'
-    response = requests.post(host, json={'prompt': prompt, 'n_samples' : 1, 'n_iter' : 1})
+    response = requests.post(host, json={'prompt': prompt+", epic", 'n_samples' : 1, 'n_iter' : 1})
 
     # decode image
     imageBytes = base64.b64decode(response.json()['image']) #decode
@@ -199,9 +199,10 @@ def make_image_and_story(prompt):
     f.close()
 
     caption = get_caption("sample.png")
+    caption += " " + prompt
 
-    co = cohere.Client('yRfs5ozta7DQtTF0duztE9bV7CNulvcxwuqJizhB')
-    response = co.generate(prompt=caption, model ='c0381280-2035-4042-a5a0-01f5800bd9c0-ft', max_tokens=80)
+    co = cohere.Client('SD5vY3pwFrA0bBNTnIpp4N02sWhK4vd7mkkcrpXS')
+    response = co.generate(prompt=caption, model ='aeb523c3-a79c-48ba-9274-a12ac07492a2-ft', max_tokens=80)
 
     return Image.open("sample.png"), processing(response.generations[0].text)
 
