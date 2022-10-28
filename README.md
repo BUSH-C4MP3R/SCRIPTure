@@ -15,7 +15,7 @@ pip install -r requirements.txt
 
 Run the following terminal command to run the code in a local host: 
 ```
-python main.py
+python SCRIPture/main.py
 ```
 Copy and past local host into browser and press the generate button. 
 
