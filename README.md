@@ -5,7 +5,7 @@ Project for CalHacks 9.0: A tool for fantasy writers that generates images and b
 
 
 # Setup
-
+**Must have python 3.9.0 or greater to run**
 Run following terminal command inside of directory after cloning:
 ```
 pip install -r requirements.txt
