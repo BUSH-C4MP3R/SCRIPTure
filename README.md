@@ -3,6 +3,10 @@
 # SCRIPTure
 Our Project for CalHacks 9.0: A tool for fantasy writers that generates images and background for monsters. Using a fine-tuned model on the Cohere API, Stable Diffusion, and Salesforce BLIP.
 
+# Demo
+We were invited to demo and explain the implementation of our project to Co-founder Aiden Frosst and the executive team at Cohere. This is the demo that we presented as well as future steps we envisioned for our project.
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/yRUFGOLwQfM/0.jpg)](https://www.youtube.com/watch?v=yRUFGOLwQfM)
 
 # Setup
 **Must have python 3.9.0 or greater to run**
